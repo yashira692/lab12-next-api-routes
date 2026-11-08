@@ -1,0 +1,377 @@
+{
+  "info": {
+    "name": "GLAB-S12 - Biblioteca API Routes",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. POST Crear autor",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/authors",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "authors"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Gabriel García Márquez\",\n  \"email\": \"gabo@example.com\",\n  \"nationality\": \"Colombia\",\n  \"birthYear\": 1927,\n  \"bio\": \"Premio Nobel de Literatura 1982\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const j = pm.response.json();",
+              "if (j.id) pm.collectionVariables.set('authorId', j.id);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. GET Todos los autores",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/authors",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "authors"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const j = pm.response.json();",
+              "if (Array.isArray(j) && j.length && !pm.collectionVariables.get('authorId')) pm.collectionVariables.set('authorId', j[0].id);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. GET Autor por ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/authors/{{authorId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "authors",
+            "{{authorId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "4. PUT Actualizar autor",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/authors/{{authorId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "authors",
+            "{{authorId}}"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Gabriel García Márquez\",\n  \"bio\": \"Autor de Cien años de soledad\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "5. POST Crear libro",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/books",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "books"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Cien años de soledad\",\n  \"description\": \"Obra maestra del realismo mágico\",\n  \"isbn\": \"978-0307474728\",\n  \"publishedYear\": 1967,\n  \"genre\": \"Novela\",\n  \"pages\": 417,\n  \"authorId\": \"{{authorId}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const j = pm.response.json();",
+              "if (j.id) pm.collectionVariables.set('bookId', j.id);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "6. GET Libros de un autor",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/authors/{{authorId}}/books",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "authors",
+            "{{authorId}}",
+            "books"
+          ]
+        }
+      }
+    },
+    {
+      "name": "7. GET Todos los libros",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/books",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "books"
+          ]
+        }
+      }
+    },
+    {
+      "name": "8. GET Libros filtrados por género",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/books?genre=Novela",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "books"
+          ],
+          "query": [
+            {
+              "key": "genre",
+              "value": "Novela"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "9. GET Libro por ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/books/{{bookId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "books",
+            "{{bookId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "10. DELETE Eliminar libro",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/books/{{bookId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "books",
+            "{{bookId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "11. TAREA - GET Búsqueda con paginación",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/books/search?search=a&genre=Novela&page=1&limit=3&sortBy=publishedYear&order=desc",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "books",
+            "search"
+          ],
+          "query": [
+            {
+              "key": "search",
+              "value": "a"
+            },
+            {
+              "key": "genre",
+              "value": "Novela"
+            },
+            {
+              "key": "page",
+              "value": "1"
+            },
+            {
+              "key": "limit",
+              "value": "3"
+            },
+            {
+              "key": "sortBy",
+              "value": "publishedYear"
+            },
+            {
+              "key": "order",
+              "value": "desc"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "12. TAREA - GET Búsqueda por nombre de autor",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/books/search?authorName=vargas&sortBy=title&order=asc",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "books",
+            "search"
+          ],
+          "query": [
+            {
+              "key": "authorName",
+              "value": "vargas"
+            },
+            {
+              "key": "sortBy",
+              "value": "title"
+            },
+            {
+              "key": "order",
+              "value": "asc"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "13. TAREA - GET Estadísticas del autor",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/authors/{{authorId}}/stats",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "authors",
+            "{{authorId}}",
+            "stats"
+          ]
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000"
+    },
+    {
+      "key": "authorId",
+      "value": ""
+    },
+    {
+      "key": "bookId",
+      "value": ""
+    }
+  ]
+}
